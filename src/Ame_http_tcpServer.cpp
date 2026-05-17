@@ -16,7 +16,7 @@ namespace {
 }
 
 namespace http{
-	TCPServer::TCPServer(std::string ip_address, int port) : m_ip_address(ip_address), m_port(port), m_socket(), m_new_socket(), m_incomingM	essage(), m_socketAddress(), m_scoketAddress_len(sizeof(m_socketAddress)), m_serverMessage(buildResponse()) {
+	TCPServer::TCPServer(std::string ip_address, int port) : m_ip_address(ip_address), m_port(port), m_socket(), m_new_socket(), m_incomingMessage(), m_socketAddress(), m_socketAddress_len(sizeof(m_socketAddress)), m_serverMessage(buildResponse()) {
 		m_socketAddress.sin_family = AF_INET;     // sin_family is a member variable of IPV4 socket address structure in C and C++. Specifies what address family that the socket will use.
 		m_socketAddress.sin_port = htons(m_port); // 16 bit integer field inside IPV4 socket address structure. htons() convert bytes to TCP/IP network byte order.
 		m_socketAddress.sin_addr.s_addr = inet_addr(m_ip_address.c_str()); // Converts a IP address string into a binary format understood by OS.
@@ -70,13 +70,14 @@ namespace http{
 
 			char buffer[BUFFER_SIZE] = {0};
 			bytesReceived = read(m_new_socket, buffer, BUFFER_SIZE); // read() is a syscall
-			if(bytesReceiver < 0){
+			if(bytesReceived < 0){
 				exitWithError("Failed to read bytes from client socket connection");
 			}
 
 			std::ostringstream ss;
 			ss << "================= Received Request from client =============\n\n";
 			log(ss.str());
+			sendResponse();
 		}
 
 	}
@@ -94,6 +95,7 @@ namespace http{
 		std::string htmlFile = "<!DOCTYPE html><html lang=\"en\"><body><h1> HOME </h1><p> Hello from your Server :) </p></body></html>";
 		std::ostringstream ss;
 		ss << "HTTP/1.1 200 OK\nContent-Type: text/html\nContent-Length: " << htmlFile.size() << "\n\n";
+		ss << htmlFile;
 		return ss.str();
 	}
 
