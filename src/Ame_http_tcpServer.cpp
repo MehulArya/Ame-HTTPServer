@@ -51,7 +51,7 @@ namespace http{
 		exit(0);
 	}
 
-	void startListen(){
+	void TCPServer::startListen(){
 		if(listen(m_socket, 20) < 0){ 				// Listen is a syscall for listening to socket Request
 			exitWithError("Socket Lenght Exceeded");
 		}
@@ -60,4 +60,14 @@ namespace http{
 		ss << "\n Listening on Address" << inet_ntoa(m_socketAddress.sin_addr) << "Port: " << ntohs(m_socketAddress.sin_port) << " \n\n";
 		log(ss.str());
 	}
+
+	void TCPServer::acceptConnection(int &new_socket){
+		new_socket = accept(m_socket, (sockaddr *) &m_socketAddress, &m_socketAddress_len);
+		if(new_socket < 0){
+			std::ostringstream ss;
+			ss << "Server Failed to accept incoming connection of Address: " << inet_ntoa(m_socketAddress.sin_addr) << "; PORT: " << ntohs(m_socketAddress.sin_port);
+			exitWithError(ss.str());
+		}
+	}
+
 }
