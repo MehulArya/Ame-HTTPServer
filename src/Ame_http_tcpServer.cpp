@@ -90,4 +90,24 @@ namespace http{
 		}
 	}
 
+	std::string TCPServer::buildResponse(){
+		std::string htmlFile = "<!DOCTYPE html><html lang=\"en\"><body><h1> HOME </h1><p> Hello from your Server :) </p></body></html>";
+		std::ostringstream ss;
+		ss << "HTTP/1.1 200 OK\nContent-Type: text/html\nContent-Length: " << htmlFile.size() << "\n\n";
+		return ss.str();
+	}
+
+
+	void TCPServer::sendResponse(){
+		long bytesSent;
+		bytesSent = write(m_new_socket, m_serverMessage.c_str(), m_serverMessage.size()); // write is a syscall in linux
+
+		if(bytesSent == m_serverMessage.size()){
+			log("========== Server Response Sent to Client =============\n\n\n");
+		}
+		else{
+			log("Error Sending response to Client");
+		}
+	}
+
 }
