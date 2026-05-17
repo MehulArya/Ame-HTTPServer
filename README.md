@@ -8,19 +8,19 @@ the client request, and returns a simple HTTP `200 OK` HTML page.
 
 The git history shows the project growing in small networking steps:
 
-1. `98932b3` - Added the basic program structure with `main_server.cpp`, a
+1. Added the basic program structure with `main_server.cpp`, a
    `TCPServer` class declaration, and the first implementation file.
-2. `29a1b41` - Added server startup, shutdown, logging, and error handling.
+2. Added server startup, shutdown, logging, and error handling.
    This introduced the socket lifecycle around `startServer()` and
    `closeServer()`.
-3. `ace530d` - Added socket address setup and binding, connecting the server to
+3. Added socket address setup and binding, connecting the server to
    an IP address and port.
-4. `e812572` - Added listening support so the socket can queue incoming client
+4. Added listening support so the socket can queue incoming client
    connections.
-5. `5e0786d` - Added `acceptConnection()` to accept client connections from the
+5. Added `acceptConnection()` to accept client connections from the
    listen queue.
-6. `43594ec` - Added request reading from the connected client socket.
-7. `afd28f8` - Added HTTP response construction and response sending.
+6. Added request reading from the connected client socket.
+7. Added HTTP response construction and response sending.
 8. Current working tree - Added CMake build support and wired `main()` to call
    `startListen()`, so the server now stays running and serves requests.
 
