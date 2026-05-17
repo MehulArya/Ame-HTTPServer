@@ -10,6 +10,7 @@ namespace http{
 		public:
 			TCPServer(std::string ip_address, int port);
 			~TCPServer();
+			void startListen();
 		private:
 			std::string m_ip_address;
 			int m_port;
@@ -21,6 +22,7 @@ namespace http{
 			std::string m_serverMessage;
 
 			int startServer();
-			int closeServer();
+			void closeServer();
+
 	};
 }

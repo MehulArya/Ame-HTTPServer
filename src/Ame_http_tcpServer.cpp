@@ -50,4 +50,14 @@ namespace http{
 		close(m_new_socket);
 		exit(0);
 	}
+
+	void startListen(){
+		if(listen(m_socket, 20) < 0){ 				// Listen is a syscall for listening to socket Request
+			exitWithError("Socket Lenght Exceeded");
+		}
+
+		std::ostringstream ss;
+		ss << "\n Listening on Address" << inet_ntoa(m_socketAddress.sin_addr) << "Port: " << ntohs(m_socketAddress.sin_port) << " \n\n";
+		log(ss.str());
+	}
 }
